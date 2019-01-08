@@ -1,19 +1,31 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Page Title</title>
+    <title>Editor</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="css/style.css" />
-    
 </head>
+
 <body>
     <div class="content">
         <canvas width="300" height="300" id="plotno">
-        
+
         </canvas>
+
+        <div class="buttons">
+            <button id="run" class="run">Pobierz piksele</button><br />
+            <button id="brightplus" class="bright">Jasność +</button>
+            <button id="brightminus" class="bright">Jasność -</button><br />
+            <button id="contrast" class="contrast">Kontrast +</button>
+            <button id="contrast" class="contrast">Kontrast -</button><br />
+            <button id="saturation" class="saturation">Nasycenie +</button>
+            <button id="saturation" class="saturation">Nasycenie -</button>
+        </div>
     </div>
-<script src="js/main.js"></script>
+    <script src="js/main.js"></script>
 </body>
+
 </html>
