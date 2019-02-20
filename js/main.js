@@ -4,8 +4,9 @@ let ctx = plotno.getContext('2d');
 let btnRun = document.querySelector('#run');
 let btnBrightplus = document.querySelector('#brightplus');
 let btnBrightminus = document.querySelector('#brightminus');
-let btnContrast = document.querySelector('#contrast');
-let btnSaturation = document.querySelector('#saturation');
+let contrast = document.querySelector("#contrast")
+let contrast_value = document.querySelector("#contrast-value")
+let invert = document.querySelector('#invert');
 let img = new Image();
 
 img.src = zdjecie;
@@ -14,6 +15,21 @@ img.src = zdjecie;
 img.addEventListener('load', (e) => {
     ctx.drawImage(img, 0, 0, plotno.width, plotno.height);
 });
+
+function draw() {
+    ctx.drawImage(img, 0, 0, plotno.width, plotno.height)
+}
+
+//Invert
+invert.addEventListener('click', (e) => {
+    let imageData = ctx.getImageData(0, 0, plotno.width, plotno.height)
+    for (let i = 0; i < imageData.data.length; i += 4) {
+        imageData.data[i] = imageData.data[i] ^ 255
+        imageData.data[i + 1] = imageData.data[i + 1] ^ 255
+        imageData.data[i + 2] = imageData.data[i + 2] ^ 255
+    }
+    ctx.putImageData(imageData, 0, 0)
+})
 
 btnRun.addEventListener('click', (e) => {
     let imageData = ctx.getImageData(0, 0, plotno.width, plotno.height);
@@ -26,6 +42,7 @@ btnRun.addEventListener('click', (e) => {
     ctx.putImageData(imageData, 0, 0);
 });
 
+//Jasność
 btnBrightplus.addEventListener('click', (e) => {
     let imageData = ctx.getImageData(0, 0, plotno.width, plotno.height);
     for (let i = 0; i < imageData.data.length; i += 4) {
@@ -46,13 +63,27 @@ btnBrightminus.addEventListener('click', (e) => {
     ctx.putImageData(imageData, 0, 0);
 })
 
-btnContrast.addEventListener('click', (e) => {
-    let imageData = ctx.getImageData(0, 0, plotno.width, plotno.height);
-    for (let i = 0; i < imageData.data.length; i += 4) {
-        imageData[i] ^= 255;
-        imageData[i + 1] ^= 255;
-        imageData[i + 2] ^= 255;
-
+//Kontrast
+function truncateColor(value) {
+    if (value < 0) {
+        value = 0;
+    } else if (value > 255) {
+        value = 255;
     }
-    ctx.putImageData(imageData, 0, 0);
+    return value;
+}
+
+contrast.addEventListener("input", (e) => {
+    draw()
+    let imageData = ctx.getImageData(0, 0, plotno.width, plotno.height)
+
+    let value = (e.target.value)
+    contrast_value.innerHTML = value
+    let factor = ((259.0 * (value + 255.0)) / (255.0 * (259.0 - value))) / 10
+    for (let i = 0; i < imageData.data.length; i += 4) {
+        imageData.data[i] = truncateColor(factor * (imageData.data[i] - 128.0) + 128.0)
+        imageData.data[i + 1] = truncateColor(factor * (imageData.data[i + 1] - 128.0) + 128.0)
+        imageData.data[i + 2] = truncateColor(factor * (imageData.data[i + 2] - 128.0) + 128.0)
+    }
+    ctx.putImageData(imageData, 0, 0)
 })
