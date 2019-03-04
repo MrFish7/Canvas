@@ -4,8 +4,12 @@ let ctx = plotno.getContext('2d');
 let btnRun = document.querySelector('#run');
 let btnBrightplus = document.querySelector('#brightplus');
 let btnBrightminus = document.querySelector('#brightminus');
-let contrast = document.querySelector("#contrast")
-let contrast_value = document.querySelector("#contrast-value")
+let contrast = document.querySelector("#contrast");
+let contrast_value = document.querySelector("#contrast-value");
+let saturation_counter = document.querySelector("#saturation-counter");
+let saturation = document.querySelector("#saturation");
+let saturation1 = document.querySelector("#saturation1");
+let saturation2 = document.querySelector("#saturation2");
 let invert = document.querySelector('#invert');
 let img = new Image();
 
@@ -87,3 +91,24 @@ contrast.addEventListener("input", (e) => {
     }
     ctx.putImageData(imageData, 0, 0)
 })
+
+//Nasycenie
+saturation.addEventListener("input", (e) => {
+    console.log(ctx.fillStyle)
+    saturation_counter.innerHTML = `hsl(${saturation.value}, ${saturation1.value}%, ${saturation2.value}%)`
+    ctx.globalCompositeOperation = "saturation"
+    ctx.fillStyle = `hsl(${e.target.value},${saturation1.value}%,${saturation2.value}%)`
+    ctx.fillRect(0, 0, plotno.width, plotno.height)
+});
+saturation1.addEventListener("input", (e) => {
+    saturation_counter.innerHTML = `hsl(${saturation.value}, ${saturation1.value}%, ${saturation2.value}%)`
+    ctx.globalCompositeOperation = "saturation"
+    ctx.fillStyle = `hsl(${saturation.value},${e.target.value}%,${saturation2.value}%)`
+    ctx.fillRect(0, 0, plotno.width, plotno.height)
+});
+saturation2.addEventListener("input", (e) => {
+    saturation_counter.innerHTML = `hsl(${saturation.value}, ${saturation1.value}%, ${saturation2.value}%)`
+    ctx.globalCompositeOperation = "saturation"
+    ctx.fillStyle = `hsl(${saturation.value},${saturation2.value}%,${e.target.value}%)`
+    ctx.fillRect(0, 0, plotno.width, plotno.height)
+});
