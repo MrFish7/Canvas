@@ -87,3 +87,18 @@ body {
     background: #339966;
     color: white;
 }
+
+input[type=range]::-moz-range-track {
+    border-radius: 2px;
+    height: 15px;
+    background-color: limegreen;
+}
+
+input[type=range]::-moz-range-thumb {
+    background: tomato;
+    border: 1px solid black;
+    width: 15px;
+    height: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+}
